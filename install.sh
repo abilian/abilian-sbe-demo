@@ -17,7 +17,8 @@ pip install -e .
 
 cd ../..
 
-echo "Overriding config"
+echo "Creating, then twekaing config"
+./manage.py config init
 PWD = `pwd`
 echo "\n\nSQLALCHEMY_DATABASE_URI = 'sqlite:///$PWD/var/data.db'" >> var/sbe-demo-instance/config.py
 
