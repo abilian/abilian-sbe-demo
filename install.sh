@@ -1,5 +1,7 @@
 #!/bin/sh
 
+GIT_SRC=git@github.com:sfermigier/abilian-sbe.git
+
 # Exit on firts error
 set -e
 
@@ -13,7 +15,7 @@ cd src
 if [ ! -d abilian-sbe ]
 then
   echo "Cloning Abilian SBE source"
-  git clone https://github.com/sfermigier/abilian-sbe.git
+  git clone $GIT_SRC
 else
   cd abilian-sbe
   git pull
@@ -31,7 +33,7 @@ if [ ! -f var/sbe-demo-instance/config.py ]
 then
   echo "Creating, then twekaing config"
   ./manage.py config init
-  PWD = `pwd`
+  PWD=`pwd`
   echo "\n\nSQLALCHEMY_DATABASE_URI = 'sqlite:///$PWD/var/data.db'" >> var/sbe-demo-instance/config.py
 fi
 
