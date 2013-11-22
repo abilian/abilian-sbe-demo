@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Exit on firts error
+set -e
+
 echo "Creating virtualenv"
 virtualenv .
 source ./bin/activate
@@ -7,8 +10,15 @@ source ./bin/activate
 mkdir -p src
 cd src
 
-echo "Cloning Abilian SBE source"
-git clone https://github.com/sfermigier/abilian-sbe.git
+if [ ! -d abilian-sbe ]
+then
+  echo "Cloning Abilian SBE source"
+  git clone https://github.com/sfermigier/abilian-sbe.git
+else
+  cd abilian-sbe
+  git pull
+  cd ..
+fi
 
 echo "Installing Abilian SBE and dependencies"
 cd abilian-sbe
@@ -17,15 +27,21 @@ pip install -e .
 
 cd ../..
 
-echo "Creating, then twekaing config"
-./manage.py config init
-PWD = `pwd`
-echo "\n\nSQLALCHEMY_DATABASE_URI = 'sqlite:///$PWD/var/data.db'" >> var/sbe-demo-instance/config.py
+if [ ! -f var/sbe-demo-instance/config.py ]
+then
+  echo "Creating, then twekaing config"
+  ./manage.py config init
+  PWD = `pwd`
+  echo "\n\nSQLALCHEMY_DATABASE_URI = 'sqlite:///$PWD/var/data.db'" >> var/sbe-demo-instance/config.py
+fi
 
-echo "Creating DB"
-./manage.py initdb
+if [ ! -f var/data.db ]
+then
+  echo "Creating DB"
+  ./manage.py initdb
 
-echo "Creating admin user with email 'admin@example.com' and password 'admin'"
-./manage.py createadmin admin@example.com admin
+  echo "Creating admin user with email 'admin@example.com' and password 'admin'"
+  ./manage.py createadmin admin@example.com admin
+fi
 
 echo "Now type './manage.py run' to launch the server"
