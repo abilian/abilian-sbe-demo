@@ -9,8 +9,8 @@ if [ ! -f ./bin/python ]
 then
   echo "Creating virtualenv"
   virtualenv .
-  . ./bin/activate
 fi
+. ./bin/activate
 
 mkdir -p src
 cd src
