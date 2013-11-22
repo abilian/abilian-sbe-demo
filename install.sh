@@ -7,7 +7,7 @@ set -e
 
 echo "Creating virtualenv"
 virtualenv .
-source ./bin/activate
+. ./bin/activate
 
 mkdir -p src
 cd src
