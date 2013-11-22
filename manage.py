@@ -12,7 +12,6 @@ from abilian.sbe.app import Application
 
 def create_app():
   app = Application(name='sbe-demo')
-  from flask import render_template
   return app
 
 

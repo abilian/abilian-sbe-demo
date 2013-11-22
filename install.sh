@@ -5,9 +5,12 @@ GIT_SRC=git@github.com:sfermigier/abilian-sbe.git
 # Exit on firts error
 set -e
 
-echo "Creating virtualenv"
-virtualenv .
-. ./bin/activate
+if [ ! -f ./bin/python ]
+then
+  echo "Creating virtualenv"
+  virtualenv .
+  . ./bin/activate
+fi
 
 mkdir -p src
 cd src
